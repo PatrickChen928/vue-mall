@@ -165,15 +165,13 @@
             checked
           }
         ).then(res => {
-          if (res.status === '0') {
-            this.EDIT_CART(
-              {
-                productId,
-                checked,
-                productNum
-              }
-            )
-          }
+          this.EDIT_CART(
+            {
+              productId,
+              checked,
+              productNum
+            }
+          )
         })
       },
       // 修改购物车

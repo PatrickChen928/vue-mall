@@ -36,9 +36,9 @@
       return {
         title: '我的订单',
         nav: [
-          // {name: '我的订单', path: 'orderList'},
+          {name: '我的订单', path: 'orderList'},
           {name: '账户资料', path: 'information'},
-          // {name: '收货地址', path: 'addressList'}
+          {name: '收货地址', path: 'addressList'}
           // {name: '我的优惠', path: 'coupon'},
           // {name: '售后服务', path: 'support'},
           // {name: '以旧换新', path: 'aihuishou'}
@@ -51,7 +51,7 @@
     },
     methods: {
       tab (e) {
-        // this.$router.push({path: '/user/' + e.path})
+        this.$router.push({path: '/user/' + e.path})
       }
     },
     created () {

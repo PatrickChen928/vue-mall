@@ -56,7 +56,8 @@
           page,
           sort,
           priceGt: min,
-          priceLte: max
+          priceLte: max,
+          goodsType: 2
         };
         queryGoodsList(params).then(res => {
           if (res.result.count) {
@@ -100,6 +101,16 @@
     },
     created () {
       this._getComputer()
+      // addGoods({
+      //   salePrice: 199,
+      //   productName: '测试数据',
+      //   productImageSmall: '/static/images/mock/hot/2.jpg',
+      //   productImageBig: '/static/images/mock/hot/2.jpg',
+      //   sub_title: '面料上花足心思,质感更加轻薄柔滑',
+      //   limit_num: '10'
+      // }).then(res => {
+      //   console.log(res);
+      // })
     },
     mounted () {
       this.windowHeight = window.innerHeight

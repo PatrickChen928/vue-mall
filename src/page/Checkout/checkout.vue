@@ -9,9 +9,9 @@
             <li v-for="(item,i) in addList"
                 :key="i"
                 class="address pr"
-                :class="{checked:addressId === item.addressId}"
-                @click="defaultAddress(item.addressId)">
-           <span v-if="addressId === item.addressId" class="pa">
+                :class="{checked:addressId === item._id}"
+                @click="defaultAddress(item._id)">
+           <span v-if="addressId === item._id" class="pa">
              <svg viewBox="0 0 1473 1024" width="17.34375" height="12">
              <path
                d="M1388.020 57.589c-15.543-15.787-37.146-25.569-61.033-25.569s-45.491 9.782-61.023 25.558l-716.054 723.618-370.578-374.571c-15.551-15.769-37.151-25.537-61.033-25.537s-45.482 9.768-61.024 25.527c-15.661 15.865-25.327 37.661-25.327 61.715 0 24.053 9.667 45.849 25.327 61.715l431.659 436.343c15.523 15.814 37.124 25.615 61.014 25.615s45.491-9.802 61.001-25.602l777.069-785.403c15.624-15.868 25.271-37.66 25.271-61.705s-9.647-45.837-25.282-61.717M1388.020 57.589z"
@@ -24,7 +24,7 @@
               <p>手机号码: {{item.tel}}</p>
               <div class="operation-section">
                 <span class="update-btn" @click="update(item)">修改</span>
-                <span class="delete-btn" :data-id="item.addressId" @click="del(item.addressId)">删除</span>
+                <span class="delete-btn" :data-id="item._id" @click="del(item._id)">删除</span>
               </div>
             </li>
 
@@ -110,7 +110,7 @@
       </y-shelf>
 
       <y-popup :open="popupOpen" @close='popupOpen=false' :title="popupTitle">
-        <div slot="content" class="md" :data-id="msg.addressId">
+        <div slot="content" class="md" :data-id="msg._id">
           <div>
             <input type="text" placeholder="收货人姓名" v-model="msg.userName">
           </div>
@@ -126,7 +126,7 @@
           <y-button text='保存'
                     class="btn"
                     :classStyle="btnHighlight?'main-btn':'disabled-btn'"
-                    @btnClick="save({addressId:msg.addressId,userName:msg.userName,tel:msg.tel,streetName:msg.streetName,isDefault:msg.isDefault})">
+                    @btnClick="save({_id:msg._id,userName:msg.userName,tel:msg.tel,streetName:msg.streetName,isDefault:msg.isDefault})">
           </y-button>
         </div>
       </y-popup>
@@ -135,7 +135,8 @@
   </div>
 </template>
 <script>
-  import { getCartList, addressList, addressUpdate, addressAdd, addressDel, productDet } from '/api/goods'
+  import { getCartList, productDet } from '/api/goods'
+  import { addressList, addressUpdate, addressAdd, addressDel } from '/api/address'
   import YShelf from '/components/shelf'
   import YButton from '/components/YButton'
   import YPopup from '/components/popup'
@@ -146,13 +147,13 @@
       return {
         cartList: [],
         addList: [],
-        addressId: '1',
+        addressId: '',
         popupOpen: false,
         popupTitle: '管理收货地址',
         num: '', // 立刻购买
         productId: '',
         msg: {
-          addressId: '',
+          _id: '',
           userName: '',
           tel: '',
           streetName: '',
@@ -187,7 +188,7 @@
           let data = res.result
           if (data.length) {
             this.addList = data
-            this.addressId = data[0].addressId || '1'
+            this.addressId = data[0]._id
           } else {
             this.addList = []
           }
@@ -233,22 +234,22 @@
           this.msg.tel = item.tel
           this.msg.streetName = item.streetName
           this.msg.isDefault = item.isDefault
-          this.msg.addressId = item.addressId
+          this.msg._id = item._id
         } else {
           this.popupTitle = '新增收货地址'
           this.msg.userName = ''
           this.msg.tel = ''
           this.msg.streetName = ''
           this.msg.isDefault = false
-          this.msg.addressId = ''
+          this.msg._id = ''
         }
       },
       // 保存
       save (p) {
-        if (p.addressId) {
+        if (p._id) {
           this._addressUpdate(p)
         } else {
-          delete p.addressId
+          delete p._id
           this._addressAdd(p)
         }
         this.popupOpen = false

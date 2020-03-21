@@ -76,11 +76,13 @@
         })
       },
       _delOrder (orderId, i) {
-        delOrder({orderId}).then(res => {
-          if (!res.status) {
-            this.orderList.splice(i, 1)
-          } else {
-            alert('删除失败')
+        this.$Modal.confirm({
+          title: '提示框',
+          content: '确定删除该订单吗？',
+          onOk: () => {
+            delOrder({orderId}).then(() => {
+              this.orderList.splice(i, 1)
+            })
           }
         })
       }

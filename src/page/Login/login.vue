@@ -79,7 +79,7 @@
   import YFooter from '/common/footer'
   import YButton from '/components/YButton'
   import { userLogin, register } from '/api/index'
-  import { addCartBatch } from '/api/goods'
+  import { addCartBatch, addCart } from '/api/goods'
   import { getStore, removeStore } from '/utils/storage'
 
   export default {
@@ -133,19 +133,24 @@
           this.ruleForm.errMsg = '账号或者密码不能为空!'
         } else {
           let params = {userName, userPwd}
-          userLogin(params).then(res => {
-            if (res.status === '0') {
-              if (this.cart.length) {
-                addCartBatch({productMsg: this.cart}).then(res => {
-                  if (res.status === '1') {
-                    removeStore('buyCart')
-                  }
-                }).then(this.$router.go(-1))
-              } else {
-                this.$router.go(-1)
-              }
+          userLogin(params).then((res) => {
+            if (this.cart.length) {
+             /* this.cart.forEach(v => {
+                addCart(...v);
+              });
+              setTimeout(() => {
+                removeStore('buyCart')
+                this.$router.push('/')
+              }, 1000);*/
+              addCartBatch({productMsg: this.cart}).then(res => {
+                if (res.status === '1') {
+                  removeStore('buyCart')
+                }
+              }).then(() => {
+                this.$router.push('/')
+              })
             } else {
-              this.ruleForm.errMsg = res.msg
+              this.$router.push('/')
             }
           })
         }
@@ -166,15 +171,11 @@
         }
         register({userName, userPwd, nickName}).then(res => {
           this.registered.errMsg = res.msg
-          if (res.status === '0') {
-            setTimeout(() => {
-              this.ruleForm.errMsg = ''
-              this.registered.errMsg = ''
-              this.loginPage = true
-            }, 500)
-          } else {
-            return false
-          }
+          setTimeout(() => {
+            this.ruleForm.errMsg = ''
+            this.registered.errMsg = ''
+            this.loginPage = true
+          }, 500)
         })
       }
     },

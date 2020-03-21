@@ -1,8 +1,7 @@
 <!--商品详情-->
 <template>
   <div class="w store-content">
-    待开发
-    <!--<div class="gray-box">
+    <div class="gray-box">
       <div class="gallery-wrapper">
         <div class="gallery">
           <div class="thumbnail">
@@ -19,7 +18,7 @@
           </div>
         </div>
       </div>
-      &lt;!&ndash;右边&ndash;&gt;
+      <!--右边-->
       <div class="banner">
         <div class="sku-custom-title">
           <h4>{{product.productName}}</h4>
@@ -35,19 +34,20 @@
         </div>
         <div class="buy">
           <y-button text="加入购物车"
-                    @btnClick="addCart(product.productId,product.salePrice,product.productName,product.productImageBig)"
+                    @btnClick="addCart(product._id,product.salePrice,product.productName,product.productImageBig)"
                     classStyle="main-btn"
                     style="width: 145px;height: 50px;line-height: 48px"></y-button>
           <y-button text="现在购买"
-                    @btnClick="checkout(product.productId)"
+                    @btnClick="checkout(product._id)"
                     style="width: 145px;height: 50px;line-height: 48px"></y-button>
         </div>
       </div>
     </div>
-    &lt;!&ndash;产品信息&ndash;&gt;
+    <!--产品信息-->
     <div class="item-info">
       <y-shelf title="产品信息">
         <div slot="content">
+          <div v-html="productMsg"></div>
           <div class="img-item" v-if="productMsg">
             <img v-for="(item, i) in productMsg.pieces_num"
                  v-lazy="`${productMsg.url}?x-oss-process=image/resize,w_2440/indexcrop,y_1440,i_${item-1}/quality,Q_100/format,webp`"
@@ -60,7 +60,7 @@
           </div>
         </div>
       </y-shelf>
-    </div>-->
+    </div>
   </div>
 </template>
 <script>
@@ -88,7 +88,8 @@
         productDet({productId}).then(res => {
           let result = res.result
           this.product = result
-          this.productMsg = result.productMsg || ''
+          // this.productMsg = result.productMsg || '',
+          this.productMsg = result.detail || '',
           this.small = result.productImageSmall
           this.big = this.small[0]
         })

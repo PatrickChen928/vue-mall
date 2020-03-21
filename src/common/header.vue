@@ -107,16 +107,16 @@
             <div class="w">
               <ul class="nav-list">
                 <li>
-                  <router-link to="/">首页</router-link>
+                  <router-link to="/" :class="{active: $route.path === '/home'}">首页</router-link>
                 </li>
                 <li>
-                  <router-link to="/home">全部商品</router-link>
+                  <router-link to="/goods" :class="{active: $route.path === '/goods'}">全部商品</router-link>
                 </li>
                 <li>
-                  <router-link to="/home">男装</router-link>
+                  <router-link to="/menGoods" :class="{active: $route.path === '/menGoods'}">男装</router-link>
                 </li>
                 <li>
-                  <router-link to="/home">女装</router-link>
+                  <router-link to="/womenGoods" :class="{active: $route.path === '/womenGoods'}">女装</router-link>
                 </li>
               </ul>
             </div>
@@ -144,18 +144,18 @@
         user: {},
         // 列表
         navList: [
-         /* {
+          {
           text: '我的订单',
           link: '/user/orderList'
-        }, */
+        },
           {
           text: '账号资料',
           link: '/user/information'
         },
-        /*  {
+          {
           text: '收货地址',
           link: '/user/addressList'
-        }*/
+        }
         ],
         st: false,
         // 头部购物车显示
@@ -193,9 +193,7 @@
       // 登陆时获取一次购物车商品
       _getCartList () {
         getCartList().then(res => {
-          if (res.status === '1') {
-            setStore('buyCart', res.result)
-          }
+          setStore('buyCart', res.result)
           // 重新初始化一次本地数据
         }).then(this.INIT_BUYCART)
       },
@@ -829,7 +827,14 @@
         a {
           display: block;
           padding: 0 20px;
+          font-size: 16px;
           color: #666;
+          &:hover {
+            color: #5683EA;
+          }
+        }
+        .active {
+          color: #5683EA;
         }
       }
       li:before {

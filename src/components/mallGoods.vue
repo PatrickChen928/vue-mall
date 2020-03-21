@@ -2,7 +2,7 @@
   <div class="good-item">
     <div>
       <div class="good-img">
-        <router-link :to="'goodsDetails?productId='+msg.productId">
+        <router-link :to="'goodsDetails?productId='+msg._id">
           <img v-lazy="msg.productImageBig" :alt="msg.productName">
         </router-link>
       </div>
@@ -10,12 +10,12 @@
       <h3 class="sub-title ellipsis">{{msg.sub_title}}</h3>
       <div class="good-price pr">
         <div class="ds pa">
-          <router-link :to="'goodsDetails?productId='+msg.productId">
+          <router-link :to="'goodsDetails?productId='+msg._id">
             <y-button text="查看详情" style="margin: 0 5px"/>
           </router-link>
           <y-button text="加入购物车"
                     style="margin: 0 5px"
-                    @btnClick="addCart(msg.productId,msg.salePrice,msg.productName,msg.productImageBig)"
+                    @btnClick="addCart(msg._id,msg.salePrice,msg.productName,msg.productImageBig)"
                     classStyle="main-btn"
           ></y-button>
         </div>

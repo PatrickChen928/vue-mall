@@ -75,7 +75,8 @@
 <script>
   import YShelf from '/components/shelf'
   import YButton from '/components/YButton'
-  import { addressList, getCartList, payMent, productDet } from '/api/goods'
+  import { getCartList, payMent, productDet } from '/api/goods'
+  import { addressDetail } from '/api/address'
   export default {
     data () {
       return {
@@ -106,7 +107,7 @@
         })
       },
       _addressList (params) {
-        addressList(params).then(res => {
+        addressDetail(params).then(res => {
           this.addList = res.result
         })
       },
@@ -116,12 +117,9 @@
           orderTotal: this.checkPrice,
           productId: this.productId,
           productNum: this.num
-        }).then(res => {
-          if (!res.status) {
-            this.$router.push({path: '/order/paysuccess', query: {price: this.checkPrice}})
-          } else {
-            alert('支付失败')
-          }
+        }).then(() => {
+          //刷新页面，重置购物车
+          window.location.href = '/order/paysuccess?price=' + this.checkPrice;
         })
       },
       _productDet (productId) {

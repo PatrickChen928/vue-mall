@@ -22,28 +22,30 @@ Vue.use(VueLazyload, {
 Vue.config.productionTip = false
 
 // 不需要登陆的页面 => 白名单
-const whiteList = ['/home', '/goods', '/login', '/goodsDetails']
+const whiteList = ['/home', '/goods', '/menGoods', '/womenGoods', '/login', '/goodsDetails']
 router.beforeEach(function (to, from, next) {
-  userInfo().then(res => {
-    // 没登录
-    if (res.status) {
+  if (to.path !== '/login') {
+    userInfo().then(res => {
+      store.commit('RECORD_USERINFO', {info: res.result})
+      //  跳转到
+      if (to.path === '/login') {
+        next({path: '/'})
+      } else {
+        next()
+      }
+    }).catch(() => {
+      // 没登录
       // 白名单
       if (whiteList.indexOf(to.path) !== -1) {
         next()
       } else {
         next('/login')
       }
-    } else {
-      store.commit('RECORD_USERINFO', {info: res.result})
-      //  跳转到
-      if (to.path === '/login') {
-        next({path: '/'})
-      }
-      next()
-    }
-  })
-  next()
-})
+    })
+  } else {
+    next()
+  }
+});
 
 /* eslint-disable no-new */
 new Vue({
