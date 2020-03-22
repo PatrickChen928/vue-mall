@@ -18,7 +18,7 @@ Vue.use(VueLazyload, {
   // error: 'dist/error.png',
   loading: '/static/images/load.gif'
   // attempt: 1
-})
+});
 Vue.config.productionTip = false
 
 // 不需要登陆的页面 => 白名单

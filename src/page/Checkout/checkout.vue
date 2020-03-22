@@ -212,6 +212,9 @@
           content: '确定删除吗？',
           onOk: () => {
             addressDel({_id: params.addressId}).then(() => {
+              if (this.addressId == params.addressId) {
+                this.addressId = '';
+              }
               this._addressList()
             })
           }
@@ -219,6 +222,10 @@
       },
       // 付款
       payment () {
+        if (!this.addressId) {
+          this.$Message.error('请先添加收货地址');
+          return;
+        }
         // 需要拿到地址id
         this.$router.push({
           path: '/order/payment',

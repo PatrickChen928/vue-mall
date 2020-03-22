@@ -135,13 +135,6 @@
           let params = {userName, userPwd}
           userLogin(params).then((res) => {
             if (this.cart.length) {
-             /* this.cart.forEach(v => {
-                addCart(...v);
-              });
-              setTimeout(() => {
-                removeStore('buyCart')
-                this.$router.push('/')
-              }, 1000);*/
               addCartBatch({productMsg: this.cart}).then(res => {
                 if (res.status === '1') {
                   removeStore('buyCart')

@@ -8,7 +8,7 @@ export default {
     return new Promise((resolve, reject) => {
       axios.get(url, {params}).then(res => {
         let status = res.data.status;
-        if (status === 1) {
+        if (status == 1) {
           Message.error(res.data.msg);
           reject(res.data);
         } else {
@@ -24,7 +24,7 @@ export default {
     return new Promise((resolve, reject) => {
       axios.post(url, params).then(res => {
         let status = res.data.status;
-        if (status === 1) {
+        if (status == 1) {
           if (url.indexOf('/users/userInfo') === -1 ) {
             Message.error(res.data.msg);
           }
