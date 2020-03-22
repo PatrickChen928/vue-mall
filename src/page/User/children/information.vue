@@ -130,19 +130,11 @@
           this.$refs.cropper.getCropData((data) => {
             this.imgSrc = data
             upload({imgData: data}).then(res => {
-              if (res.status === '0') {
-                let path = res.result.path
-                alert('待完成')
-               /* updateheadimage({imageSrc: path}).then(res1 => {
-                  if (res1.status === '0') {
-                    let info = this.userInfo
-                    info.avatar = path
-                    this.RECORD_USERINFO({info: info})
-                    alert('更换成功')
-                    this.editAvatarShow = false
-                  }
-                })*/
-              }
+              this.userInfo.avatar = data;
+              let info = this.userInfo
+              info.avatar = data
+              this.RECORD_USERINFO({info: info})
+              this.editAvatarShow = false
             })
           })
         } else {

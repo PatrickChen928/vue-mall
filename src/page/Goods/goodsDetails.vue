@@ -31,6 +31,7 @@
         <div class="num">
           <span class="params-name">数量</span>
           <buy-num @edit-num="editNum" :limit="Number(product.limit_num)"></buy-num>
+          <span style="margin-left: 10px;color: #999;">库存：{{product.limit_num}}</span>
         </div>
         <div class="buy">
           <y-button text="加入购物车"
@@ -47,14 +48,14 @@
     <div class="item-info">
       <y-shelf title="产品信息">
         <div slot="content">
-          <div v-html="productMsg"></div>
-          <div class="img-item" v-if="productMsg">
+          <div v-html="productMsg" v-if="productMsg" class="goods_detail"></div>
+          <!--<div class="img-item" v-if="productMsg">
             <img v-for="(item, i) in productMsg.pieces_num"
                  v-lazy="`${productMsg.url}?x-oss-process=image/resize,w_2440/indexcrop,y_1440,i_${item-1}/quality,Q_100/format,webp`"
                  alt="产品信息"
                  :key="i"
                 >
-          </div>
+          </div>-->
           <div class="no-info" v-else>
             该产品暂无内容
           </div>
@@ -239,7 +240,9 @@
   }
 
   .item-info {
-
+    .goods_detail {
+      text-align: center;
+    }
     .gray-box {
       padding: 0;
       display: block;

@@ -45,6 +45,7 @@ router.beforeEach(function (to, from, next) {
   } else {
     next()
   }
+  window.scrollTo(0, 0)
 });
 
 /* eslint-disable no-new */

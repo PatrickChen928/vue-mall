@@ -23,8 +23,8 @@
               <p class="street-name ellipsis">收货地址: {{item.streetName}}</p>
               <p>手机号码: {{item.tel}}</p>
               <div class="operation-section">
-                <span class="update-btn" @click="update(item)">修改</span>
-                <span class="delete-btn" :data-id="item._id" @click="del(item._id)">删除</span>
+                <span class="update-btn" @click.stop="update(item)">修改</span>
+                <span class="delete-btn" :data-id="item._id" @click.stop="del(item._id)">删除</span>
               </div>
             </li>
 
@@ -121,7 +121,7 @@
             <input type="text" placeholder="收货地址" v-model="msg.streetName">
           </div>
           <div>
-            <span><input type="checkbox" v-model="msg.isDefault" style="margin-right: 5px;">设为默认</span>
+            <Checkbox v-model="msg.isDefault">设为默认</Checkbox>
           </div>
           <y-button text='保存'
                     class="btn"
@@ -188,7 +188,9 @@
           let data = res.result
           if (data.length) {
             this.addList = data
-            this.addressId = data[0]._id
+            if (!this.addressId) {
+              this.addressId = data[0]._id
+            }
           } else {
             this.addList = []
           }
@@ -205,9 +207,15 @@
         })
       },
       _addressDel (params) {
-        addressDel(params).then(res => {
-          this._addressList()
-        })
+        this.$Modal.confirm({
+          title: '提示框',
+          content: '确定删除吗？',
+          onOk: () => {
+            addressDel({_id: params.addressId}).then(() => {
+              this._addressList()
+            })
+          }
+        });
       },
       // 付款
       payment () {
